@@ -30,5 +30,32 @@ gen_rule(
     cmd  = 'rsync -av 3rd/lua-zset/zset.lua $BUILD_DIR/3rd/'
 )
 
+# https://github.com/openresty/lua-cjson/
+cc_plugin (
+    name = 'cjson',
+    srcs = [
+        'lua-cjson/lua_cjson.c',
+        'lua-cjson/strbuf.c',
+        'lua-cjson/fpconv.c',
+    ],
+    incs=['../skynet/3rd/lua/'],
+    prefix = "",
+    extra_cppflags = ['-Wno-implicit-function-declaration'],
+)
+
+# https://github.com/samuelyao314/lua-cmsgpack
+cc_plugin (
+    name = 'cmsgpack',
+    srcs = [
+        'lua-cmsgpack/lua_cmsgpack.c',
+        'lua-cmsgpack/compat-5.2.c',
+    ],
+    incs=['../skynet/3rd/lua/'],
+    prefix = "",
+    extra_cppflags = ['-Wno-sign-compare'],
+)
+
+
+
 
 
