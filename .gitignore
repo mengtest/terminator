@@ -1,0 +1,8 @@
+/build64_release/
+.sconsign.dblite
+.root
+.Building.lock
+blade-bin
+/deploy/
+.luacheckcache
+

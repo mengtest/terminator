@@ -1,0 +1,9 @@
+[submodule "3rd/sds"]
+	path = 3rd/sds
+	url = https://github.com/antirez/sds
+[submodule "3rd/lua-zset"]
+	path = 3rd/lua-zset
+	url = https://github.com/xjdrew/lua-zset
+[submodule "skynet"]
+	path = skynet
+	url = https://github.com/cloudwu/skynet
