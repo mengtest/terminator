@@ -35,5 +35,6 @@ install:
 	cp $(THIRD_PARTY_DIR)/*.lua $(INSTALL_DIR)/lualib/
 	cp $(THIRD_PARTY_DIR)/*.so $(INSTALL_DIR)/luaclib/
 	cp -r examples/* $(INSTALL_DIR)
+	cp -r lualib/* $(INSTALL_DIR)/lualib
 
 
