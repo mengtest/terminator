@@ -4,7 +4,7 @@
 -- @filename  MemoryReferenceInfo.lua
 -- @author    WangYaoqi
 -- @date      2016-02-03
--- https://www.cnblogs.com/yaukey/p/unity_lua_memory_leak_trace.html
+-- 来源： https://github.com/yaukeywang/LuaMemorySnapshotDump
 
 -- The global config of the mri.
 local cConfig = 

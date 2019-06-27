@@ -27,6 +27,8 @@ install:
 	rm -rf $(INSTALL_DIR)/*
 	mkdir $(INSTALL_SKYNET)
 	cp skynet/skynet $(INSTALL_SKYNET)
+	cp skynet/3rd/lua/lua $(INSTALL_SKYNET)
+	cp skynet/3rd/lua/luac $(INSTALL_SKYNET)
 	cp -r skynet/lualib $(INSTALL_SKYNET)
 	cp -r skynet/luaclib $(INSTALL_SKYNET)
 	cp -r skynet/service $(INSTALL_SKYNET)
