@@ -1,5 +1,5 @@
 local skynet = require "skynet"
-local memory = require "bw/memory"
+local memory = require "perf/memory"
 
 local handler = {}
 
