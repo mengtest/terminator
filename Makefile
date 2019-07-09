@@ -12,7 +12,7 @@ skynet: | $(SKYNET_MAKEFILE)
 
 
 build:
-	blade build ... --verbose
+	blade build -p debug ... --verbose
 
 clean:
 	rm -rf build64_* blade-bin
@@ -21,7 +21,7 @@ clean:
 
 INSTALL_DIR = deploy/
 INSTALL_SKYNET = ${INSTALL_DIR}/skynet
-THIRD_PARTY_DIR = build64_release/3rd
+THIRD_PARTY_DIR = build64_debug/thirdparty
 
 install:
 	rm -rf $(INSTALL_DIR)/*

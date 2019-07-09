@@ -1,4 +1,4 @@
--- 对服务的内存进行采样
+-- 对内存进行采样
 -- 底层的检测原理见 https://www.cnblogs.com/yaukey/p/unity_lua_memory_leak_trace.html
 
 local mri = require "perf/MemoryReferenceInfo"

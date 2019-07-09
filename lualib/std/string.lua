@@ -81,3 +81,37 @@ function string:join(parts)
 	end
 	return text
 end
+
+
+--  返回二进制数据 data 的十六进制表示形式
+-- 
+function string.hexlify(data)
+     return string.gsub(data, ".", 
+                function(x) return string.format("%02x", string.byte(x)) end)
+end
+
+
+local function ascii_to_num(c)
+     if (c >= string.byte("0") and c <= string.byte("9")) then
+         return c - string.byte("0")
+     elseif (c >= string.byte("A") and c <= string.byte("F")) then
+         return (c - string.byte("A"))+10
+     elseif (c >= string.byte("a") and c <= string.byte("f")) then
+         return (c - string.byte("a"))+10
+     else
+         error "Wrong input for ascii to num convertion."
+     end
+ end
+
+
+-- 返回由十六进制字符串表示的二进制数据
+-- 此函数功能与 hexlify 相反
+function string.unhexlify(h)
+    local s = ""
+    for i = 1, #h, 2 do
+        local high = ascii_to_num(string.byte(h,i))
+        local low = ascii_to_num(string.byte(h,i+1))
+        s = s .. string.char((high*16)+low)
+    end
+    return s
+end

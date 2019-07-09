@@ -1,15 +1,15 @@
 [submodule "3rd/sds"]
-	path = 3rd/sds
+	path = thirdparty/sds
 	url = https://github.com/antirez/sds
 [submodule "3rd/lua-zset"]
-	path = 3rd/lua-zset
+	path = thirdparty/lua-zset
 	url = https://github.com/xjdrew/lua-zset
 [submodule "skynet"]
 	path = skynet
 	url = https://github.com/cloudwu/skynet
 [submodule "3rd/lua-cjson"]
-	path = 3rd/lua-cjson
+	path = thirdparty/lua-cjson
 	url = https://github.com/cloudwu/lua-cjson
 [submodule "3rd/lua-cmsgpack"]
-	path = 3rd/lua-cmsgpack
+	path = thirdparty/lua-cmsgpack
 	url = https://github.com/samuelyao314/lua-cmsgpack

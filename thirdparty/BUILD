@@ -21,13 +21,14 @@ cc_plugin (
     ],
     incs=['../skynet/3rd/lua/'],
     prefix = "",
+    extra_cppflags = ['-Wno-float-equal'],
 )
 
 gen_rule(
     name = 'copy_skiplist',
     deps = ':skiplist',
     outs = ['zset.lua'],
-    cmd  = 'rsync -av 3rd/lua-zset/zset.lua $BUILD_DIR/3rd/'
+    cmd  = 'rsync -av thirdparty/lua-zset/zset.lua $BUILD_DIR/thirdparty/'
 )
 
 # https://github.com/openresty/lua-cjson/
@@ -40,7 +41,7 @@ cc_plugin (
     ],
     incs=['../skynet/3rd/lua/'],
     prefix = "",
-    extra_cppflags = ['-Wno-implicit-function-declaration'],
+    extra_cppflags = ['-Wno-implicit-function-declaration', '-Wno-format-nonliteral'],
 )
 
 # https://github.com/samuelyao314/lua-cmsgpack
