@@ -56,6 +56,16 @@ cc_plugin (
     extra_cppflags = ['-Wno-sign-compare'],
 )
 
+# https://github.com/keplerproject/luafilesystem/
+cc_plugin (
+    name = 'lfs',
+    srcs = [
+        'luafilesystem/src/lfs.c',
+    ],
+    incs=['../skynet/3rd/lua/'],
+    prefix = "",
+    extra_cppflags = [],
+)
 
 
 

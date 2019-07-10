@@ -56,6 +56,13 @@ local function test_msgpack()
     skynet.error("t:\n ", inspect.inspect(t), "\n")
 end
 
+
+local function test_lfs()
+    skynet.error("=============== lfs ================")
+	local lfs = require "lfs"
+	skynet.error("pwd: ", lfs.currentdir())
+end
+
 skynet.start(function()
     skynet.newservice("debug_console",8000)
     skynet.error("Be water my friend.")
@@ -63,4 +70,5 @@ skynet.start(function()
     test_zset()
     test_cjson()
     test_msgpack()
+	test_lfs()
 end)
