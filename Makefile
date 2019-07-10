@@ -21,7 +21,8 @@ clean:
 
 INSTALL_DIR = deploy/
 INSTALL_SKYNET = ${INSTALL_DIR}/skynet
-THIRD_PARTY_DIR = build64_debug/thirdparty
+BUILD_THIRD_PARTY = build64_debug/thirdparty
+THIRD_PARTY_DIR = thirdparty
 
 install:
 	rm -rf $(INSTALL_DIR)/*
@@ -34,9 +35,11 @@ install:
 	cp -r skynet/service $(INSTALL_SKYNET)
 	cp -r skynet/cservice $(INSTALL_SKYNET)
 	mkdir $(INSTALL_DIR)/lualib $(INSTALL_DIR)/luaclib $(INSTALL_DIR)/service
-	cp $(THIRD_PARTY_DIR)/*.lua $(INSTALL_DIR)/lualib/
-	cp $(THIRD_PARTY_DIR)/*.so $(INSTALL_DIR)/luaclib/
+	cp $(BUILD_THIRD_PARTY)/*.lua $(INSTALL_DIR)/lualib/
+	cp $(BUILD_THIRD_PARTY)/*.so $(INSTALL_DIR)/luaclib/
 	cp -r examples/* $(INSTALL_DIR)
 	cp -r lualib/* $(INSTALL_DIR)/lualib
+	cp ${THIRD_PARTY_DIR}/argparse/src/argparse.lua $(INSTALL_DIR)/lualib/base
+	cp ${THIRD_PARTY_DIR}/inspect/inspect.lua $(INSTALL_DIR)/lualib/base
 
 
