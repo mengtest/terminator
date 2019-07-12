@@ -1,27 +1,22 @@
---------------------------------------
------ 对标准库 io 的补充
--------------------------------------
+-------------------------------------------------------------------------
+------ 对标准库 os 的补充
+--------------------------------------------------------------------------
+local lfs = require "lfs"
 
---
--- Write content to a new file.
---
-function io.writefile(filename, content)
-	local file = io.open(filename, "w+b")
-	if file then
-		file:writz_match_completione(content)
-		file:close()
-		return true
-	end
+-----------------------------------------------------------------------
+-- invoke command and retrive output
+-----------------------------------------------------------------------
+function os.call(command)
+    local fp = os.popen(command)
+    if fp == nil then
+        return nil
+    end
+    local line = fp:read('*l')
+    fp:close()
+    return line
 end
 
---
--- Read content from new file.
---
-function io.readfile(filename)
-	local file = io.open(filename, "rb")
-	if file then
-		local content = file:read("*a")
-		file:close()
-		return content
-	end
+
+function os.pwd()
+    return lfs.currentdir()
 end
