@@ -1,5 +1,5 @@
 local skynet = require "skynet"
-local inspect = require "base/inspect"
+local inspect = require "inspect"
 require "std/init"
 
 

@@ -1,32 +1,34 @@
-.PHONY:all skynet clean install
+.PHONY:all skynet clean install build
 
 all: skynet build
+
+CUR_OS="linux"
+ifeq ($(shell uname), Darwin)
+	CUR_OS="macosx"
+endif
 
 
 SKYNET_MAKEFILE=skynet/Makefile
 $(SKYNET_MAKEFILE):
 	git submodule update --init
-
 skynet: | $(SKYNET_MAKEFILE)
-	cd skynet && $(MAKE) linux
-
+	cd skynet && $(MAKE) $(CUR_OS)
 
 build:
-	blade build -p debug ... --verbose
+	cd build && cmake .. && make
 
 clean:
-	rm -rf build64_* blade-bin
+	cd build && rm -rf *
 	cd skynet && make clean
 
 
 INSTALL_DIR = deploy/
 INSTALL_SKYNET = ${INSTALL_DIR}/skynet
-BUILD_THIRD_PARTY = build64_debug/thirdparty
-THIRD_PARTY_DIR = thirdparty
+BUILD_THIRD_PARTY = build/thirdparty
 
 install:
 	rm -rf $(INSTALL_DIR)/*
-	mkdir $(INSTALL_SKYNET)
+	mkdir -p $(INSTALL_SKYNET)
 	cp skynet/skynet $(INSTALL_SKYNET)
 	cp skynet/3rd/lua/lua $(INSTALL_SKYNET)
 	cp skynet/3rd/lua/luac $(INSTALL_SKYNET)
@@ -39,7 +41,5 @@ install:
 	cp $(BUILD_THIRD_PARTY)/*.so $(INSTALL_DIR)/luaclib/
 	cp -r examples/* $(INSTALL_DIR)
 	cp -r lualib/* $(INSTALL_DIR)/lualib
-	cp ${THIRD_PARTY_DIR}/argparse/src/argparse.lua $(INSTALL_DIR)/lualib/base
-	cp ${THIRD_PARTY_DIR}/inspect/inspect.lua $(INSTALL_DIR)/lualib/base
 
 
