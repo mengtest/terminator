@@ -1,4 +1,7 @@
 .root
 /deploy/
 /build/
+/.idea/
+/cmake-build-debug/
+
 

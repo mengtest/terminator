@@ -19,6 +19,7 @@ macro (add_lua_library lname)
     set_target_properties(${lname} PROPERTIES SUFFIX ${suffix})
 endmacro()
 
-include_directories (${PROJECT_SOURCE_DIR}/skynet/3rd/lua)
+set(LUA_INCLUDE_DIR  ${PROJECT_SOURCE_DIR}/skynet/3rd/lua)
+include_directories (${LUA_INCLUDE_DIR})
 
 add_subdirectory (${PROJECT_SOURCE_DIR}/thirdparty)
