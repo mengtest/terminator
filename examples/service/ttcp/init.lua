@@ -1,8 +1,12 @@
 --  实现 TTCP 服务
+--  参考 https://github.com/chenshuo/muduo/blob/master/examples/ace/ttcp/ttcp_blocking.cc
 require "std/init"
 local skynet = require "skynet"
 local socket = require "skynet.socket"
 local inspect = require "inspect"
+
+local host = "127.0.0.1"
+local port = 10001
 
 
 local function handler(id, addr)
@@ -28,16 +32,16 @@ local function handler(id, addr)
         skynet.error("payload.length:", payload.length)
         assert(payload.length == session_message.length)
         payload.data = socket.read(id, session_message.length)
-        local ack = string.pack('>i4', payload.length)
+        local ack = string.pack('>i', payload.length)
         socket.write(id, ack)
     end
 end
 
 
 local function ttcp_server()
-    local listen_id = socket.listen("127.0.0.1",  10001)
+    local listen_id = socket.listen(host, port)
     assert(listen_id)
-    skynet.error("listen id: ", id)
+    skynet.error("listen id: ", listen_id)
     socket.start(listen_id, function(id, addr)
         skynet.error("client id: ", id, ", addr: ", addr)
         socket.start(id)                 -- 这行很重要. 否则id 不可读.
@@ -46,8 +50,34 @@ local function ttcp_server()
 end
 
 
+-- 客户端. 行为类似  ./ttcp_blocking --trans 127.0.0.1  -p 10001 --length 1024 -n 10
+local function ttcp_client()
+    skynet.sleep(10)
+    skynet.error("ttcp_client start")
+    local id = socket.open(host, port)
+    assert(id)
+    skynet.error("id: ", id)
+    
+    -- 这里可以修改
+    local session_message = {number = 10, length = 1024}
+    local data = string.pack(">ii", session_message.number, session_message.length)
+    socket.write(id, data)
+    for i = 1, session_message.number do
+        local payload = string.rep("a", session_message.length)
+        socket.write(id, string.pack(">s4", payload))
+        local fmt = ">i"
+        local size = string.packsize(fmt)
+        local data = socket.read(id, size)
+        local ack = string.unpack(fmt, data)
+        skynet.error("loop, i: ", i, ", ack: ", ack)
+    end
+    skynet.error("ttcp_client stop")
+end
+
+
 
 skynet.start(function()
     skynet.error("start ttcp server.")
     ttcp_server()
+    ttcp_client()
 end)
