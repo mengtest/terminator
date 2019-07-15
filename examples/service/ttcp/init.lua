@@ -5,12 +5,11 @@ local socket = require "skynet.socket"
 local inspect = require "inspect"
 
 
-
-local function accept(id)
-    local fmt = ">i4i4"
+local function handler(id, addr)
+    local fmt = ">ii"
     local size = string.packsize(fmt)
     local data, succ = socket.read(id, size)
-    if not succ then
+    if false == succ then
         skynet.error("read failed, id: ", id, ", addr: ", addr)
         return
     end
@@ -20,36 +19,35 @@ local function accept(id)
 
     -- 读取 PlayLoadMessage
     for i = 1, session_message.number do
-        local fmt = ">i4s" .. session_message.length
-        local size = string.packsize(fmt)
-        local data2, succ = socket.read(id, size)
-        if not succ then
-            skynet.error("read payload failed, id: ", id, ", addr: ", addr)
-            return
-        end
-        local payload_message = {length = 0, data = ""}
-        payload_message.length, payload_message.data = string.unapck(fmt, size)
-        skynet.error("payload_message.length:", payload_message.length)
-        skynet.error("throw away payload_message, ", #payload_message.data)
+        skynet.error("loop: i ", i)
+        local fmt2 = ">i"
+        local size2 = string.packsize(fmt2)
+        local data2 = socket.read(id, size2)
+        local payload = {length = 0, data = ""}
+        payload.length = string.unpack(fmt2, data2)
+        skynet.error("payload.length:", payload.length)
+        assert(payload.length == session_message.length)
+        payload.data = socket.read(id, session_message.length)
+        local ack = string.pack('>i4', payload.length)
+        socket.write(id, ack)
     end
 end
 
 
 local function ttcp_server()
-    local id = socket.listen("127.0.0.1",  10001)
-
-    socket.start(id, function(id, addr)
-        skynet.error("client: ", addr)
-        accept(id, addr)
+    local listen_id = socket.listen("127.0.0.1",  10001)
+    assert(listen_id)
+    skynet.error("listen id: ", id)
+    socket.start(listen_id, function(id, addr)
+        skynet.error("client id: ", id, ", addr: ", addr)
+        socket.start(id)                 -- 这行很重要. 否则id 不可读.
+        skynet.fork(handler, id, addr)
     end)
 end
 
 
 
 skynet.start(function()
-    skynet.newservice("debug_console",8000)
-    skynet.error("Be water my friend.")
-
+    skynet.error("start ttcp server.")
     ttcp_server()
-
 end)
