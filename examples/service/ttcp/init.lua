@@ -1,5 +1,5 @@
 --  实现 TTCP 服务
---  参考 https://github.com/chenshuo/muduo/blob/master/examples/ace/ttcp/ttcp_blocking.cc
+--  类似 https://github.com/chenshuo/muduo/blob/master/examples/ace/ttcp/ttcp_blocking.cc
 require "std/init"
 local skynet = require "skynet"
 local socket = require "skynet.socket"
@@ -19,17 +19,17 @@ local function handler(id, addr)
     end
     local session_message = {number = 0, length = 0}
     session_message.number, session_message.length = string.unpack(fmt, data)
-    skynet.error("session_message:", inspect.inspect(session_message))
+    --skynet.error("session_message:", inspect.inspect(session_message))
 
     -- 读取 PlayLoadMessage
     for i = 1, session_message.number do
-        skynet.error("loop: i ", i)
+        --skynet.error("loop: i ", i)
         local fmt2 = ">i"
         local size2 = string.packsize(fmt2)
         local data2 = socket.read(id, size2)
         local payload = {length = 0, data = ""}
         payload.length = string.unpack(fmt2, data2)
-        skynet.error("payload.length:", payload.length)
+        --skynet.error("payload.length:", payload.length)
         assert(payload.length == session_message.length)
         payload.data = socket.read(id, session_message.length)
         local ack = string.pack('>i', payload.length)
@@ -52,14 +52,16 @@ end
 
 -- 客户端. 行为类似  ./ttcp_blocking --trans 127.0.0.1  -p 10001 --length 1024 -n 10
 local function ttcp_client()
-    skynet.sleep(10)
-    skynet.error("ttcp_client start")
+    local session_message = {number = 10000, length = 1024}
+    skynet.error("port", port)
+    skynet.error("buffer length", session_message.length)
+    skynet.error("connecting to ", host, ":", port)
     local id = socket.open(host, port)
     assert(id)
-    skynet.error("id: ", id)
+    skynet.error("connected")
     
     -- 这里可以修改
-    local session_message = {number = 10, length = 1024}
+    local stime = skynet.time()
     local data = string.pack(">ii", session_message.number, session_message.length)
     socket.write(id, data)
     for i = 1, session_message.number do
@@ -69,15 +71,20 @@ local function ttcp_client()
         local size = string.packsize(fmt)
         local data = socket.read(id, size)
         local ack = string.unpack(fmt, data)
-        skynet.error("loop, i: ", i, ", ack: ", ack)
+        --skynet.error("loop, i: ", i, ", ack: ", ack)
+        assert(ack == session_message.length)
     end
-    skynet.error("ttcp_client stop")
+    local etime = skynet.time()
+    local seconds = etime - stime
+    local total_mib = session_message.number * session_message.length / 1024 / 1024
+    skynet.error(string.format("%.2f MiB in total", total_mib))
+    skynet.error(string.format("%.2f seconds", seconds))
 end
 
 
 
 skynet.start(function()
-    skynet.error("start ttcp server.")
+    skynet.error("-----------start ttcp server.----------------")
     ttcp_server()
     ttcp_client()
 end)
