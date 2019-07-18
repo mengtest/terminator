@@ -52,7 +52,7 @@ end
 
 -- 客户端. 行为类似  ./ttcp_blocking --trans 127.0.0.1  -p 10001 --length 1024 -n 10
 local function ttcp_client()
-    local session_message = {number = 10000, length = 1024}
+    local session_message = {number = 10000, length = 8192}
     skynet.error("port", port)
     skynet.error("buffer length", session_message.length)
     skynet.error("connecting to ", host, ":", port)
@@ -79,8 +79,13 @@ local function ttcp_client()
     local total_mib = session_message.number * session_message.length / 1024 / 1024
     skynet.error(string.format("%.2f MiB in total", total_mib))
     skynet.error(string.format("%.2f seconds", seconds))
+    -- 吞吐量
+    local throughput = session_message.number / seconds;
+    skynet.error(string.format("throughput: %.2f req/s", throughput))
+    -- 平均延迟
+    local latency = seconds / session_message.number
+    skynet.error(string.format("latency: %.6f", latency))
 end
-
 
 
 skynet.start(function()
