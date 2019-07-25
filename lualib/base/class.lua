@@ -54,7 +54,7 @@ local function TxClass(SuperType)
 
     -- Virtual table
     local Vtbl = {}
-    print('Vtbl', Vtbl)
+    --print('Vtbl', Vtbl)
     __TxClassTypeList[ClassType] = Vtbl
  
     -- Set index and new index of ClassType, and provide a default create method.
@@ -66,7 +66,7 @@ local function TxClass(SuperType)
 
         __newindex = function (t, k, v)
             Vtbl[k] = v
-            print('set vtbl', k, v)
+            --print('set vtbl', k, v)
         end,
 
         __call = function (self, ...)

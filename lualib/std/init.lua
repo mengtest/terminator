@@ -1,4 +1,4 @@
-require "std/string"
-require "std/table"
-require "std/io"
-require "std/os"
+require "std/stringx"
+require "std/tablex"
+require "std/iox"
+require "std/osx"

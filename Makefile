@@ -1,4 +1,4 @@
-.PHONY:all skynet clean install build
+.PHONY:all skynet clean dev build
 
 all: skynet build
 
@@ -26,7 +26,7 @@ INSTALL_DIR = deploy/
 INSTALL_SKYNET = ${INSTALL_DIR}/skynet
 BUILD_THIRD_PARTY = build/thirdparty
 
-install:
+dev:
 	rm -rf $(INSTALL_DIR)/*
 	mkdir -p $(INSTALL_SKYNET)
 	cp skynet/skynet $(INSTALL_SKYNET)
