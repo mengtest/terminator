@@ -19,12 +19,14 @@ build:
 
 clean:
 	cd build && rm -rf *
+	rm -rf deploy
 	cd skynet && make clean
 
 
 INSTALL_DIR = deploy/
 INSTALL_SKYNET = ${INSTALL_DIR}/skynet
 BUILD_THIRD_PARTY = build/thirdparty
+BUILD_EXAMPLE_CLIB = build/examples/luaclib
 
 dev:
 	rm -rf $(INSTALL_DIR)/*
@@ -39,7 +41,11 @@ dev:
 	mkdir $(INSTALL_DIR)/lualib $(INSTALL_DIR)/luaclib $(INSTALL_DIR)/service
 	cp $(BUILD_THIRD_PARTY)/*.lua $(INSTALL_DIR)/lualib/
 	cp $(BUILD_THIRD_PARTY)/*.so $(INSTALL_DIR)/luaclib/
-	cp -r examples/* $(INSTALL_DIR)
+	cp ${BUILD_EXAMPLE_CLIB}/*.so ${INSTALL_DIR}/luaclib/
+	cp -r examples/service $(INSTALL_DIR)/
+	cp -r examples/etc $(INSTALL_DIR)/
+	cp -r examples/lualib $(INSTALL_DIR)/
+	cp  examples/run.sh $(INSTALL_DIR)/
 	cp -r lualib/* $(INSTALL_DIR)/lualib
 
 

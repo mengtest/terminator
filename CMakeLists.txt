@@ -22,4 +22,5 @@ endmacro()
 set(LUA_INCLUDE_DIR  ${PROJECT_SOURCE_DIR}/skynet/3rd/lua)
 include_directories (${LUA_INCLUDE_DIR})
 
-add_subdirectory (${PROJECT_SOURCE_DIR}/thirdparty)
+add_subdirectory(thirdparty)
+add_subdirectory(examples)
