@@ -2,7 +2,7 @@ local lu = require("test/luaunit")
 
 require("std/stringx")
 
-function TestStartWith()
+function test_startwith()
     local s = "helloworld"
     lu.assertFalse(s:startswith("xxx"))
 end

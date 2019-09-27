@@ -27,3 +27,9 @@ file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/inspect/inspect.lua
 # https://github.com/mpeterv/argparse
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/argparse/src/argparse.lua
      DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+
+# https://github.com/starwing/lua-protobuf/
+aux_source_directory(lua-protobuf/ SRC_PB)
+add_lua_library(pb ${SRC_PB})
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/lua-protobuf/protoc.lua
+        DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
