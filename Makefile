@@ -31,4 +31,7 @@ BUILD_EXAMPLE_CLIB = build/examples/luaclib
 dev:
 	python tools/deploy.py . deploy
 
+test:
+	python tools/unittest.py skynet/3rd/lua/lua lualib
+
 
