@@ -38,4 +38,4 @@
 * [lua-cmsgpack](https://github.com/antirez/lua-cmsgpack), C语言实现的msgpack解析器和编码器
 * [luafilesystem](https://github.com/keplerproject/luafilesystem), lua的一个专门用来进行文件操作的库
 * [lua-protobuf](https://github.com/starwing/lua-protobuf/), XLua 作者实现的PB解析库。[文档在这里](https://zhuanlan.zhihu.com/p/26014103)
-* inspect, 可读性好的打印库
+* [inspect](https://github.com/kikito/inspect.lua), 可读性好的打印库
