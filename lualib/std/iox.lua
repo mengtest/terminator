@@ -5,7 +5,8 @@
 --
 -- Write content to a new file.
 --
-function io.writefile(filename, content)
+local _M = {}
+function _M.writefile(filename, content)
 	local file = io.open(filename, "w+b")
 	if file then
 		file:writz_match_completione(content)
@@ -17,7 +18,7 @@ end
 --
 -- Read content from new file.
 --
-function io.readfile(filename)
+function _M.readfile(filename)
 	local file = io.open(filename, "rb")
 	if file then
 		local content = file:read("*a")
@@ -25,3 +26,6 @@ function io.readfile(filename)
 		return content
 	end
 end
+
+
+return _M

@@ -1,10 +1,10 @@
 local lu = require("test/luaunit")
 
-require("std/stringx")
+local stringx = require("std/stringx")
 
-function test_startwith()
+function _G.test_startwith()
     local s = "helloworld"
-    lu.assertFalse(s:startswith("xxx"))
+    lu.assertFalse(stringx.startswith(s, "xxx"))
 end
 
 os.exit(lu.LuaUnit.run(), true)

@@ -1,6 +1,6 @@
 local skynet = require "skynet"
 local inspect = require "inspect"
-require "std/init"
+local stringx = require "std/stringx"
 
 
 local function test_zset()
@@ -38,7 +38,6 @@ local function test_cjson()
     local cjson = require "cjson"
     local sampleJson = [[{"age":"23","testArray":{"array":[8,9,11,14,25]},"Himi":"himigame.com"}]];
     local data = cjson.decode(sampleJson)
-     
     skynet.error("=============== cjson ================")
     skynet.error("age:", data["age"])
     skynet.error("array[1]:", data.testArray.array[1])
@@ -51,7 +50,7 @@ local function test_msgpack()
 
     skynet.error("=============== cmsgpack================")
     local encode = cmsgpack.pack(a)
-    skynet.error("a: ", string.hexlify(encode))
+    skynet.error("a: ", stringx.hexlify(encode))
     local t = cmsgpack.unpack(encode)
     skynet.error("t:\n ", inspect.inspect(t), "\n")
 end

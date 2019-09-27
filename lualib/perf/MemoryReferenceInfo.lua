@@ -7,7 +7,7 @@
 -- 来源： https://github.com/yaukeywang/LuaMemorySnapshotDump
 
 -- The global config of the mri.
-local cConfig = 
+local cConfig =
 {
     m_bAllMemoryRefFileAddTime = true,
     m_bSingleMemoryRefFileAddTime = true,
@@ -17,8 +17,9 @@ local cConfig =
 -- Get the format string of date time.
 local function FormatDateTimeNow()
 	local cDateTime = os.date("*t")
-	local strDateTime = string.format("%04d%02d%02d-%02d%02d%02d", tostring(cDateTime.year), tostring(cDateTime.month), tostring(cDateTime.day),
-		tostring(cDateTime.hour), tostring(cDateTime.min), tostring(cDateTime.sec))
+	local strDateTime = string.format("%04d%02d%02d-%02d%02d%02d",
+			tostring(cDateTime.year), tostring(cDateTime.month), tostring(cDateTime.day),
+			tostring(cDateTime.hour), tostring(cDateTime.min), tostring(cDateTime.sec))
 	return strDateTime
 end
 

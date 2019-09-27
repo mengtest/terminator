@@ -1,6 +1,5 @@
 --  实现 TTCP 服务
 --  类似 https://github.com/chenshuo/muduo/blob/master/examples/ace/ttcp/ttcp_blocking.cc
-require "std/init"
 local skynet = require "skynet"
 local socket = require "skynet.socket"
 local inspect = require "inspect"
@@ -59,7 +58,6 @@ local function ttcp_client()
     local id = socket.open(host, port)
     assert(id)
     skynet.error("connected")
-    
     -- 这里可以修改
     local stime = skynet.time()
     local data = string.pack(">ii", session_message.number, session_message.length)
@@ -69,8 +67,8 @@ local function ttcp_client()
         socket.write(id, string.pack(">s4", payload))
         local fmt = ">i"
         local size = string.packsize(fmt)
-        local data = socket.read(id, size)
-        local ack = string.unpack(fmt, data)
+        local body = socket.read(id, size)
+        local ack = string.unpack(fmt, body)
         --skynet.error("loop, i: ", i, ", ack: ", ack)
         assert(ack == session_message.length)
     end

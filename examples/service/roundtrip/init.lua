@@ -1,4 +1,3 @@
-require "std/init"
 local skynet = require "skynet"
 local socket = require "skynet.socket"
 
@@ -15,10 +14,11 @@ end
 
 
 local function udp_server()
-    local id 
-    id = socket.udp(function (str, from)  
+    local id
+    id = socket.udp(function (str, from)
         local size = string.packsize(pack_fmt)
-        skynet.error("server, receive message, size: ", #str, ", from: ", socket.udp_address(from), ", packsize: ", size)
+        skynet.error("server, receive message, size: ", #str, ", from: ",
+                       socket.udp_address(from), ", packsize: ", size)
         if size == #str then
             local t1, t2 = string.unpack(pack_fmt, str)
             assert(t2 == 0)

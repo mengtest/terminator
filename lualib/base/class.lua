@@ -25,7 +25,6 @@ local function TxClass(SuperType)
                         c.Ctor(Obj, ...)
                     end
                 end
- 
                 Create(ClassType, ...)
             end
 
@@ -38,7 +37,7 @@ local function TxClass(SuperType)
 
     -- The super class type of this class.
     if SuperType then
-        ClassType.super = setmetatable({}, 
+        ClassType.super = setmetatable({},
         {
             __index = function (t, k)
                 local Func = __TxClassTypeList[SuperType][k]
@@ -56,7 +55,7 @@ local function TxClass(SuperType)
     local Vtbl = {}
     --print('Vtbl', Vtbl)
     __TxClassTypeList[ClassType] = Vtbl
- 
+
     -- Set index and new index of ClassType, and provide a default create method.
     setmetatable(ClassType,
     {
@@ -73,7 +72,7 @@ local function TxClass(SuperType)
             return ClassTypeInstance(...)
         end
     })
- 
+
     -- To copy super class things that this class not have.
     if SuperType then
         setmetatable(Vtbl,
@@ -85,7 +84,7 @@ local function TxClass(SuperType)
             end
         })
     end
- 
+
     return ClassType
 end
 

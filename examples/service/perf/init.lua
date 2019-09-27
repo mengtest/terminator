@@ -4,7 +4,7 @@ local memory = require "perf/memory"
 local handler = {}
 
 function handler.dump_memory()
-    local address = skynet.address(skynet.self())  
+    local address = skynet.address(skynet.self())
     local filename = 'simulate_memory' .. address
     memory.dump_snapshot(filename)
     skynet.error('succ to dump memory snapshot')
@@ -26,7 +26,6 @@ local function simulate_use_memory()
     handler.Author = author
 end
 
-    
 skynet.dispatch("lua", function(_,_, cmd, ...)
     skynet.error("cmd", cmd)
     skynet.error("arg", ...)

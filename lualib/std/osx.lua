@@ -3,11 +3,13 @@
 --------------------------------------------------------------------------
 local lfs = require "lfs"
 
+local _M = {}
+
 -----------------------------------------------------------------------
 -- invoke command and retrive output
 -----------------------------------------------------------------------
-function os.call(command)
-    local fp = os.popen(command)
+function _M.call(command)
+    local fp = io.popen(command)
     if fp == nil then
         return nil
     end
@@ -17,6 +19,8 @@ function os.call(command)
 end
 
 
-function os.pwd()
+function _M.pwd()
     return lfs.currentdir()
 end
+
+return _M

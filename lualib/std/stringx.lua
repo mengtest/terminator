@@ -1,7 +1,9 @@
 -----------------------------------------------------------------------
 -- string lib, 对标准库的补充
 -----------------------------------------------------------------------
-function string:split(sSeparator, nMax, bRegexp)
+local _M = {}
+
+function _M.split(self, sSeparator, nMax, bRegexp)
 	assert(sSeparator ~= '')
 	assert(nMax == nil or nMax >= 1)
 	local aRecord = {}
@@ -24,7 +26,7 @@ function string:split(sSeparator, nMax, bRegexp)
 	return aRecord
 end
 
-function string:startswith(text)
+function _M.startswith(self, text)
 	local size = text:len()
 	if self:sub(1, size) == text then
 		return true
@@ -32,27 +34,27 @@ function string:startswith(text)
 	return false
 end
 
-function string:endswith(text)
+function _M.endswith(self, text)
 	return text == "" or self:sub(-#text) == text
 end
 
-function string:lstrip()
+function _M.lstrip(self)
 	if self == nil then return nil end
 	local s = self:gsub('^%s+', '')
 	return s
 end
 
-function string:rstrip()
+function _M.rstrip(self)
 	if self == nil then return nil end
 	local s = self:gsub('%s+$', '')
 	return s
 end
 
-function string:strip()
+function _M.strip(self)
 	return self:lstrip():rstrip()
 end
 
-function string:rfind(key)
+function _M.rfind(self, key)
 	if key == '' then
 		return self:len(), 0
 	end
@@ -64,7 +66,7 @@ function string:rfind(key)
 	return (length - ends + 1), (length - start + 1)
 end
 
-function string:join(parts)
+function _M.join(self, parts)
 	if parts == nil or #parts == 0 then
 		return ''
 	end
@@ -84,9 +86,9 @@ end
 
 
 --  返回二进制数据 data 的十六进制表示形式
--- 
-function string.hexlify(data)
-     return string.gsub(data, ".", 
+--
+function _M.hexlify(data)
+     return string.gsub(data, ".",
                 function(x) return string.format("%02x", string.byte(x)) end)
 end
 
@@ -106,7 +108,7 @@ local function ascii_to_num(c)
 
 -- 返回由十六进制字符串表示的二进制数据
 -- 此函数功能与 hexlify 相反
-function string.unhexlify(h)
+function _M.unhexlify(h)
     local s = ""
     for i = 1, #h, 2 do
         local high = ascii_to_num(string.byte(h,i))
@@ -115,3 +117,5 @@ function string.unhexlify(h)
     end
     return s
 end
+
+return _M

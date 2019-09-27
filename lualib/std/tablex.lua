@@ -1,7 +1,9 @@
 -----------------------------------------------------------------------
 -- table lib, 对官方库的补充
 -----------------------------------------------------------------------
-function table.length(T)
+local _M = {}
+
+function _M.length(T)
     local count = 0
     if T == nil then return 0 end
     for _ in pairs(T) do count = count + 1 end
@@ -12,7 +14,7 @@ end
 --
 -- Make a copy of the indexed elements of the table.
 --
-function table.arraycopy(object)
+function _M.arraycopy(object)
     local result = {}
     for i, value in ipairs(object) do
         result[i] = value
@@ -24,7 +26,7 @@ end
 --
 -- Returns true if the table contains the specified value.
 --
-function table.contains(t, value)
+function _M.contains(t, value)
     for _,v in pairs(t) do
         if (v == value) then
             return true
@@ -37,7 +39,7 @@ end
 --
 -- Make a shallow copy of a table
 --
-function table.shallowcopy(object)
+function _M.shallowcopy(object)
     local copy = {}
     for k, v in pairs(object) do
         copy[k] = v
@@ -49,24 +51,24 @@ end
 --
 -- Make a complete copy of a table, including any child tables it contains.
 --
-function table.deepcopy(object)
+function _M.deepcopy(object)
     -- keep track of already seen objects to avoid loops
     local seen = {}
 
-    local function copy(object)
-        if type(object) ~= "table" then
-            return object
-        elseif seen[object] then
-            return seen[object]
+    local function copy(o)
+        if type(o) ~= "table" then
+            return o
+        elseif seen[o] then
+            return seen[o]
         end
 
         local clone = {}
-        seen[object] = clone
-        for key, value in pairs(object) do
+        seen[o] = clone
+        for key, value in pairs(o) do
             clone[key] = copy(value)
         end
 
-        setmetatable(clone, getmetatable(object))
+        setmetatable(clone, getmetatable(o))
         return clone
     end
 
@@ -78,7 +80,7 @@ end
 -- Enumerates an array of objects and returns a new table containing
 -- only the value of one particular field.
 --
-function table.extract(arr, fname)
+function _M.extract(arr, fname)
     local result = { }
     for _,v in ipairs(arr) do
         table.insert(result, v[fname])
@@ -91,7 +93,7 @@ end
 -- Enumerates an array of objects and returns a new table containing
 -- only the values satisfying the given predicate.
 --
-function table.filter(arr, fn)
+function _M.filter(arr, fn)
     local result = { }
     table.foreachi(arr, function(val)
         if fn(val) then
@@ -106,13 +108,13 @@ end
 -- Flattens a hierarchy of tables into a single array containing all
 -- of the values.
 --
-function table.flatten(arr)
+function _M.flatten(arr)
     local result = {}
 
-    local function flatten(arr)
-        local n = #arr
+    local function flatten(a)
+        local n = #a
         for i = 1, n do
-            local v = arr[i]
+            local v = a[i]
             if type(v) == "table" then
                 flatten(v)
             elseif v then
@@ -137,7 +139,7 @@ end
 --    The function to call. The value (not the index) will be passed
 --    as the only argument.
 --
-function table.foreachi(arr, func)
+function _M.foreachi(arr, func)
     if arr then
         local n = #arr
         for i = 1, n do
@@ -154,7 +156,7 @@ end
 -- Merge two lists into an array of objects, containing pairs
 -- of values, one from each list.
 --
-function table.fold(list1, list2)
+function _M.fold(list1, list2)
     local result = {}
     for _, item1 in ipairs(list1 or {}) do
         if list2 and #list2 > 0 then
@@ -172,7 +174,7 @@ end
 --
 -- Merges an array of items into a string.
 --
-function table.implode(arr, before, after, between)
+function _M.implode(arr, before, after, between)
     local result = ""
     for _,v in ipairs(arr) do
         if (result ~= "" and between) then
@@ -189,7 +191,7 @@ end
 -- Looks for an object within an array. Returns its index if found,
 -- or nil if the object could not be found.
 --
-function table.indexof(tbl, obj)
+function _M.indexof(tbl, obj)
     for k, v in ipairs(tbl) do
         if v == obj then
             return k
@@ -202,7 +204,7 @@ end
 -- Looks for an object within a table. Returns the key if found,
 -- or nil if the object could not be found.
 --
-function table.findKeyByValue(tbl, obj)
+function _M.findKeyByValue(tbl, obj)
     for k, v in pairs(tbl) do
         if v == obj then
             return k
@@ -223,8 +225,8 @@ end
 -- @param value
 --    The new value to insert.
 --
-function table.insertafter(tbl, after, value)
-    local i = table.indexof(tbl, after)
+function _M.insertafter(tbl, after, value)
+    local i = _M.indexof(tbl, after)
     if i then
         table.insert(tbl, i + 1, value)
     else
@@ -242,12 +244,12 @@ end
 --   { "x", "y" } -> { "x", "y" }
 --   { "x", { "y" }} -> { "x", "y" }
 --
-function table.insertflat(tbl, values)
+function _M.insertflat(tbl, values)
     if values == nil then
         return
     elseif type(values) == "table" then
         for _, value in ipairs(values) do
-            table.insertflat(tbl, value)
+            _M.insertflat(tbl, value)
         end
     else
         table.insert(tbl, values)
@@ -260,7 +262,7 @@ end
 -- Inserts a value into a table as both a list item and a key-value pair.
 -- Useful for set operations. Returns false if the value already exists, true otherwise.
 --
-function table.insertkeyed(tbl, pos, value)
+function _M.insertkeyed(tbl, pos, value)
     if value == nil then
         value = pos
         pos = #tbl + 1
@@ -281,7 +283,7 @@ end
 -- table is already sorted according to the sort function. If fn is
 -- nil, the table is sorted according to the < operator.
 --
-function table.insertsorted(tbl, value, fn)
+function _M.insertsorted(tbl, value, fn)
     if value == nil then
         return
     else
@@ -312,7 +314,7 @@ end
 --
 -- Returns true if the table is empty, and contains no indexed or keyed values.
 --
-function table.isempty(t)
+function _M.isempty(t)
     return next(t) == nil
 end
 
@@ -321,7 +323,7 @@ end
 -- Adds the values from one array to the end of another and
 -- returns the result.
 --
-function table.join(...)
+function _M.join(...)
     local result = { }
     local arg = {...}
     for _,t in ipairs(arg) do
@@ -340,7 +342,7 @@ end
 --
 -- Return a list of all keys used in a table.
 --
-function table.keys(tbl)
+function _M.keys(tbl)
     local keys = {}
     for k, _ in pairs(tbl) do
         table.insert(keys, k)
@@ -353,7 +355,7 @@ end
 -- Adds the key-value associations from one table into another
 -- and returns the resulting merged table.
 --
-function table.merge(...)
+function _M.merge(...)
     local result = {}
     local arg = {...}
     for _,t in ipairs(arg) do
@@ -361,7 +363,7 @@ function table.merge(...)
         if type(t) == "table" then
             for k,v in pairs(t) do
                 if type(result[k]) == "table" and type(v) == "table" then
-                    result[k] = table.merge(result[k], v)
+                    result[k] = _M.merge(result[k], v)
                 else
                     result[k] = v
                 end
@@ -385,7 +387,7 @@ end
 -- @param replacement
 --    The new value.
 ---
-function table.replace(self, value, replacement)
+function _M.replace(self, value, replacement)
     for i = 1, #self do
         if self[i] == value then
             self[i] = replacement
@@ -398,7 +400,7 @@ end
 -- Translates the values contained in array, using the specified
 -- translation table, and returns the results in a new array.
 --
-function table.translate(arr, translation)
+function _M.translate(arr, translation)
     if not translation then return {} end
 
     local result = {}
@@ -420,7 +422,7 @@ end
 --
 -- Dumps a table to a string
 --
-function table.tostring(tab, recurse, indent)
+function _M.tostring(tab, recurse, indent)
     local res = ''
 
     if not indent then
@@ -428,7 +430,7 @@ function table.tostring(tab, recurse, indent)
     end
 
     local format_value = function(k, v, i)
-        formatting = string.rep("\t", i)
+        local formatting = string.rep("\t", i)
 
         if k then
             if type(k) == "table" then
@@ -441,7 +443,7 @@ function table.tostring(tab, recurse, indent)
             return formatting .. '(nil)'
         elseif type(v) == "table" then
             if recurse and recurse > 0 then
-                return formatting .. '\n' .. table.tostring(v, recurse-1, i+1)
+                return formatting .. '\n' .. _M.tostring(v, recurse-1, i+1)
             else
                 return formatting .. "<table>"
             end
@@ -490,7 +492,7 @@ end
 --
 -- Returns a copy of a list with all duplicate elements removed.
 --
-function table.unique(tab)
+function _M.unique(tab)
     local elems = { }
     local result = { }
     table.foreachi(tab, function(elem)
@@ -506,8 +508,8 @@ end
 --
 -- Filters a table for empty entries. primarly useful for lists of string.
 --
-function table.filterempty(dirs)
-    return table.translate(dirs, function(val)
+function _M.filterempty(dirs)
+    return _M.translate(dirs, function(val)
         if val and #val > 0 then
             return val
         else
@@ -520,7 +522,7 @@ end
 --
 -- Compares two tables.
 --
-function table.equals(a, b)
+function _M.equals(a, b)
     for k, v in pairs(a) do
         if b[k] ~= v then
             return false
@@ -538,7 +540,7 @@ end
 --
 -- Enumerate a table sorted by its keys.
 --
-function spairs(t)
+function _M.spairs(t)
     -- collect the keys
     local keys = {}
     for k in pairs(t) do
@@ -560,10 +562,10 @@ end
 --
 -- Intersect two arrays and return a new array
 --
-function table.intersect(a, b)
+function _M.intersect(a, b)
     local result = {}
     for _, v in ipairs(b) do
-        if table.indexof(a, v) then
+        if _M.indexof(a, v) then
             table.insert(result, v)
         end
     end
@@ -573,12 +575,15 @@ end
 --
 -- The difference of A and B is the set containing those elements that are in A but not in B
 --
-function table.difference(a, b)
+function _M.difference(a, b)
     local result = {}
     for _, v in ipairs(a) do
-        if not table.indexof(b, v) then
+        if not _M.indexof(b, v) then
             table.insert(result, v)
         end
     end
     return result
 end
+
+
+return _M

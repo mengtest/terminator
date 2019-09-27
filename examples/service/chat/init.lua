@@ -1,9 +1,9 @@
 --  实现 TTCP 服务
 --  类似 https://github.com/chenshuo/muduo/blob/master/examples/ace/ttcp/ttcp_blocking.cc
-require "std/init"
 local skynet = require "skynet"
 local socket = require "skynet.socket"
 local inspect = require "inspect"
+local tablex = require "std/tablex"
 
 local host = "127.0.0.1"
 local port = 10001
@@ -16,7 +16,7 @@ local function handler(id, addr)
         local line = socket.readline(id, "\r\n")
         if not line then
             -- 断开连接
-            local k = table.indexof(client_list, id)
+            local k = tablex.indexof(client_list, id)
             table.remove(client_list, k)
             skynet.error(string.format("client %d[%s] closed", id, addr))
             break

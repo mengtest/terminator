@@ -1,11 +1,10 @@
 --  实现 memcached 服务
 --  网络编程实践: 例子 memecached
-require "std/init"
 local skynet = require "skynet"
 local socket = require "skynet.socket"
 local inspect = require "inspect"
 local class = require "base.class"
-
+local stringx = require "std/stringx"
 
 -- 监听端口
 local host = "127.0.0.1"
@@ -50,7 +49,7 @@ end
 local function handler(id, addr)
     while true do
         local line = socket.readline(id, "\r\n")
-        local args = string.split(line, "%s+", nil, true)
+        local args = stringx.split(line, "%s+", nil, true)
         local cmd = args[1]
         skynet.error("cmd: ", cmd)
         if cmd == 'quit' then
