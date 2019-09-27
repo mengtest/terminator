@@ -1,44 +1,60 @@
 #!/usr/bin/env python
 
-""" 生成项目的部署文件 """
+""" 生成项目的部署文件夹 """
 
 import os.path
 import os
 import shutil
 import glob
 import sys
+import hashlib
 
-def file_is_changed(srcfile, destfile, comparator):
+def file_is_same(srcfile, destfile, comparator):
     return comparator(srcfile, destfile)
 
+def get_file_md5(f):
+    m = hashlib.md5()
+    while True:
+        data = f.read(10240)
+        if not data:
+            break
+        m.update(data)
+    return m.hexdigest()
 
 def md5_cmp(srcfile, destfile):
-    pass
+    src_md5 = ""
+    with open(srcfile, 'rb') as f:
+        src_md5 = get_file_md5(f)
+    with open(destfile, 'rb') as f:
+        dest_md5= get_file_md5(f)
+    return src_md5 == dest_md5
 
 def mtime_cmp(srcfile, destfile):
     t1 =  os.path.getmtime(srcfile)
     t2 =  os.path.getmtime(destfile)
-    return t1 == t2
+    return t1 <= t2
 
 def copyfile(srcfile, destfile):
-    print("###", srcfile, destfile)
     assert(os.path.exists(srcfile))
     if not os.path.exists(destfile):
         path = os.path.dirname(destfile)
         if not os.path.exists(path):
             os.makedirs(path)
         shutil.copy2(srcfile, destfile)
+        print(srcfile, "####", destfile)
         return
     # 存在差异，才进行覆盖
-    changed = file_is_changed(srcfile, destfile, mtime_cmp)
-    if changed:
+    same = file_is_same(srcfile, destfile, mtime_cmp)
+    if not same:
         shutil.copy2(srcfile, destfile)
+        print(srcfile, "--->", destfile)
 
 
 def copydir(project_dir, srcdir, deploy_dir, destdir, extension, exclude):
     """
-    同步目录.
-    遍历真实路径是 ${project_dir}/${srcdir}.  如果找到文件  ${project_dir}/${srcdir}/xxx/yyy/z.lua, 复制到路径 ${deploy_dir}/${destdir}/xxx/yyy/z.lua,
+    同步指定格式的文件.
+    遍历真实路径 ${project_dir}/${srcdir}.  如果找到文件  ${project_dir}/${srcdir}/xxx/yyy/z.lua,
+    目标路径是 ${deploy_dir}/${destdir}/xxx/yyy/z.lua,
 
     :param project_dir: 项目根目录
     :param deploy_dir: 部署目录
@@ -79,7 +95,11 @@ def main(project_dir, deploy_dir):
     """
     if not os.path.exists(deploy_dir):
         os.makedirs(deploy_dir)
+    builddir = os.path.join(project_dir, "build")
+    if not os.path.exists(builddir):
+        os.makedirs(builddir)
 
+    # 格式：起启文件路径，目标文件路径
     files = [
         ("skynet/skynet",  "skynet"),
         ("skynet/3rd/lua/lua", "skynet"),
@@ -109,7 +129,6 @@ def main(project_dir, deploy_dir):
 
     for srcdir, destdir, extension, exclude in dirs:
         copydir(project_dir, srcdir, deploy_dir, destdir, extension, exclude)
-
 
 if __name__ == "__main__":
     project_dir = sys.argv[1]
