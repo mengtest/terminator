@@ -32,9 +32,10 @@
 
 
 # 第三方模块
-* [sds](https://github.com/antirez/sds), C 动态字符串库。被应用在Redis 里。
+* [sds](https://github.com/antirez/sds), Redis 作者维护的，非常好用的C字符串库
 * [lua-zset](https://github.com/xjdrew/lua-zset), Lua 的sorted set实现。基于Redis 的skiplist源码
-* lua-cjson, Lua 的json 解析库
-* lua-cmsgpack，Lua 的messagepack 解析库， Redis 作者实现。
-* argparse, Lua 的命令行参数解析库
+* [lua-cjson](https://github.com/openresty/lua-cjson), 高性能的JSON解析器和编码器
+* [lua-cmsgpack](https://github.com/antirez/lua-cmsgpack), C语言实现的msgpack解析器和编码器
+* [luafilesystem](https://github.com/keplerproject/luafilesystem), lua的一个专门用来进行文件操作的库
+* [lua-protobuf](https://github.com/starwing/lua-protobuf/), XLua 作者实现的PB解析库。[文档在这里](https://zhuanlan.zhihu.com/p/26014103)
 * inspect, 可读性好的打印库

@@ -13,9 +13,6 @@
 [submodule "3rd/lua-cmsgpack"]
 	path = thirdparty/lua-cmsgpack
 	url = https://github.com/samuelyao314/lua-cmsgpack
-[submodule "thirdparty/argparse"]
-	path = thirdparty/argparse
-	url = https://github.com/mpeterv/argparse
 [submodule "thirdparty/inspect"]
 	path = thirdparty/inspect
 	url = https://github.com/kikito/inspect.lua
