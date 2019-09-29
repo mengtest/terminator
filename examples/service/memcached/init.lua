@@ -4,13 +4,14 @@ local skynet = require "skynet"
 local socket = require "skynet.socket"
 local inspect = require "inspect"
 local class = require "base.class"
-local stringx = require "std/stringx"
+local string = require "base.string"
 
 -- 监听端口
 local host = "127.0.0.1"
 local port = 10001
 
 -- 值类型
+-- @class CValue
 local CValue = class()
 
 function CValue:Ctor(flags, exptime, cas, val)
@@ -31,14 +32,22 @@ local storage = {}
 local commands = {}
 
 commands.set = function (id, key, flags, exptime, bytes)
+    local bytes = tonumber(bytes)
     local data = socket.readline(id, "\r\n")
+    if #data ~= bytes then
+        skynet.error("invalid data length", #data, bytes)
+        return
+    end
+    skynet.error("data", data)
     local v = CValue(flags, exptime, 0, data)
     storage[key] = v
+    skynet.error("set", key, storage[key].val)
     socket.write(id, "STORED\r\n")
-end
+    end
 
 commands.get = function(id, key)
     local v = storage[key]
+    skynet.error("get", key, v:get_val())
     if v then
         socket.write(id, v:get_val() .. "\r\n")
     end
@@ -49,7 +58,7 @@ end
 local function handler(id, addr)
     while true do
         local line = socket.readline(id, "\r\n")
-        local args = stringx.split(line, "%s+", nil, true)
+        local args = string.split(line, "%s+")
         local cmd = args[1]
         skynet.error("cmd: ", cmd)
         if cmd == 'quit' then
@@ -73,7 +82,18 @@ local function start_server()
 end
 
 
-
+--[[ 例子：
+(python3) samuel@workspace$ telnet 127.0.0.1 10001
+Trying 127.0.0.1...
+Connected to localhost.
+Escape character is '^]'.
+set hello 0 0 5
+world
+STORED
+get hello
+world
+END
+--]]
 skynet.start(function()
     skynet.error("-----------start memcached server.----------------")
     start_server()

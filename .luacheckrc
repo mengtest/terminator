@@ -1,12 +1,6 @@
 cache = true
-std = 'max'
-ignore = {
-    "_", -- 忽略 _ 变量，我们用它来表示没有用到的变量
-    "6..", -- 忽略格式上的warning
-    "142",
-    "611",
-    "612"
-}
+std = "max"
+read_globals = {"skynet"}
 
 include_files = {
     "lualib/*",
@@ -21,6 +15,7 @@ exclude_files = {
 }
 
 ignore = {
+    "_", -- 忽略 _ 变量，我们用它来表示没有用到的变量
     "i",
     "k",
     "v",
@@ -30,6 +25,4 @@ ignore = {
     "423", -- Shadowing a loop variable
     "211", -- Unused local variable
     "212", -- Unused argument
-    "212/self", -- ignore self
-    "213", -- Unused loop variable
 }

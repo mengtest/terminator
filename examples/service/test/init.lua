@@ -1,6 +1,6 @@
 local skynet = require "skynet"
 local inspect = require "inspect"
-local stringx = require "std/stringx"
+local string = require "base.string"
 
 
 local function test_zset()
@@ -50,7 +50,7 @@ local function test_msgpack()
 
     skynet.error("=============== cmsgpack================")
     local encode = cmsgpack.pack(a)
-    skynet.error("a: ", stringx.hexlify(encode))
+    skynet.error("a: ", string.hexlify(encode))
     local t = cmsgpack.unpack(encode)
     skynet.error("t:\n ", inspect.inspect(t), "\n")
 end
