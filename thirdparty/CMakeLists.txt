@@ -29,3 +29,7 @@ aux_source_directory(lua-protobuf/ SRC_PB)
 add_lua_library(pb ${SRC_PB})
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/lua-protobuf/protoc.lua
         DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+
+# https://github.com/jinq0123/hotfix
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/hotfix/lua/hotfix
+        DESTINATION ${CMAKE_CURRENT_BINARY_DIR})

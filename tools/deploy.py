@@ -82,6 +82,8 @@ def copydir(project_dir, srcdir, deploy_dir, destdir, extension, exclude):
         for file in files:
             if extension != "*" and (not file.endswith(extension)):
                 continue    # 不复制这个文件
+            if file.endswith("_test.lua"):   # 忽略单元测试文件
+                continue
             srcfile = os.path.join(root, file)
             destfile = srcfile.replace(src_path, dest_path)
             copyfile(srcfile, destfile)
@@ -119,7 +121,7 @@ def main(project_dir, deploy_dir):
         ("skynet/luaclib", "skynet/luaclib", ".so", [".dSYM"]),
         ("skynet/cservice", "skynet/cservice", ".so", [".dSYM"]),
         ("build/thirdparty", "luaclib", ".so", "*"),   # 星号， 标示不遍历子目录
-        ("build/thirdparty", "lualib", ".lua", "*"),   # 星号， 标示不遍历子目录
+        ("build/thirdparty", "lualib", ".lua", None),
         ("build/examples/luaclib", "luaclib", ".so", "*"),
         ("examples/service",  "service", ".lua", None),
         ("examples/lualib","lualib", ".lua", None),

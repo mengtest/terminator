@@ -19,3 +19,6 @@
 [submodule "thirdparty/luafilesystem"]
 	path = thirdparty/luafilesystem
 	url = https://github.com/keplerproject/luafilesystem
+[submodule "thirdparty/hotfix"]
+	path = thirdparty/hotfix
+	url = https://github.com/jinq0123/hotfix

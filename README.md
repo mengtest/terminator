@@ -1,12 +1,11 @@
-# skynet 服务框架
-参考 [bewater](https://github.com/zhandouxiaojiji/bewater), 集成了常用的Lua 库, 以及skynet 跟游戏服务相关的轮子
+## 介绍
+terminator 是基于 [skynet](https://github.com/cloudwu/skynet) 游戏服务端开发方案.
 
-# 编译和运行
-
+## 编译和运行
 项目支持在 Linux 和 MacOS 下编译。 
 首先， 安装构建工具 cmake.
 
-接下，编译项目
+接下来，编译项目
 
 ```shell
     $ git clone https://github.com/samuelyao314/workspace
@@ -31,7 +30,69 @@
 如果看见日志，就表示启动成功了。
 
 
-# 第三方模块
+## 运行测试服务
+```shell
+  #  启动进程, run.sh [配置名]
+  ./run.sh test 
+```
+
+当前测试服务都位于 examples/service 下。 你可以直接创建新的服务
+
+
+## 项目结构
+
+```
+lualib(lua库)
+   bw (基于skynet上的基础库)
+   		 hotfix (热更新机制)
+   base(通用库，支持单元测试)
+   perf(性能相关）
+   test(测试相关)
+service(通用服务)
+luaclib(编译好的c库)
+examples(测试服务)
+    etc(启动配置)
+    lualib(测试lib)
+    service(测试服务)
+    lualib-src(c库源码)
+skynet(fork skynet项目，不作任何改动)
+tools(各种工具)
+		deploy.py (生成部署目录)
+		unittest.py. (单元测试驱动)
+thirdparty. (第三方依赖)
+xxxxx  (创建你自己的项目)
+```
+
+
+## 新项目
+
+生成你自己的项目路径   XXX ?
+
+脚本， 生成模版
+* 创建目录，支持 deploy, test, check。 （可以回滚?)
+* 区分开各个项目
+* 或者不能创建项目，只能创建svr. 部署的时刻，只部署指定服务。
+
+
+## 代码规范
+使用 luacheck进行代码质量检查，配置文件.luacheckrc. 
+
+安装完 luacheck 后 （建议用 hererock + luarocks 进行安装）
+
+```shell
+   $ make check
+```
+
+## 单元测试
+单元测试文件，  是以   xx_test.lua 命名的文件。 
+执行单元测试
+
+```shell
+	$ make test
+```
+
+
+##  第三方模块
 * [sds](https://github.com/antirez/sds), Redis 作者维护的，非常好用的C字符串库
 * [lua-zset](https://github.com/xjdrew/lua-zset), Lua 的sorted set实现。基于Redis 的skiplist源码
 * [lua-cjson](https://github.com/openresty/lua-cjson), 高性能的JSON解析器和编码器
@@ -39,3 +100,7 @@
 * [luafilesystem](https://github.com/keplerproject/luafilesystem), lua的一个专门用来进行文件操作的库
 * [lua-protobuf](https://github.com/starwing/lua-protobuf/), XLua 作者实现的PB解析库。[文档在这里](https://zhuanlan.zhihu.com/p/26014103)
 * [inspect](https://github.com/kikito/inspect.lua), 可读性好的打印库
+
+
+## 参考资料
+* [bewater](https://github.com/zhandouxiaojiji/bewater),  skynet通用模块

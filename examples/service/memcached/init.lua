@@ -32,10 +32,10 @@ local storage = {}
 local commands = {}
 
 commands.set = function (id, key, flags, exptime, bytes)
-    local bytes = tonumber(bytes)
+    local nbytes = tonumber(bytes)
     local data = socket.readline(id, "\r\n")
-    if #data ~= bytes then
-        skynet.error("invalid data length", #data, bytes)
+    if #data ~= nbytes then
+        skynet.error("invalid data length", #data, nbytes)
         return
     end
     skynet.error("data", data)
