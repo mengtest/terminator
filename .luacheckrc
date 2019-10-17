@@ -11,6 +11,7 @@ include_files = {
 exclude_files = {
     'lualib/test/luaunit.lua',
     'lualib/perf/MemoryReferenceInfo.lua',
+    'examples/service/hotfix/mod.lua',
 
 }
 

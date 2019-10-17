@@ -66,7 +66,7 @@ xxxxx  (创建你自己的项目)
 
 ## 新项目
 
-生成你自己的项目路径   XXX ?
+生成你自己的项目路径   XXX ?     *TODO*
 
 脚本， 生成模版
 * 创建目录，支持 deploy, test, check。 （可以回滚?)
@@ -91,6 +91,24 @@ xxxxx  (创建你自己的项目)
 	$ make test
 ```
 
+##  代码热更新
+热更新机制针对开发环境，在正式环境不建议使用。 因为Lua的灵活性以及游戏逻辑的复杂，热更新很难做完毕。 正式环境， 临时修复代码， 可以用 skynet 自带的 inject 机制。
+
+指定服务开启热更新，细节看  service/hotfix
+
+```lua
+	  # skynet.start 加入下面代码
+    local hotfix_runner = require("bw.hotfix.hotfix_runner")
+    # 具体需要热更新的模块， 放入这个列表里
+    local modules = {"mod"}
+    hotfix_runner.update_hotfix_modules(modules)
+```
+
+## 配置热更新
+
+*TODO*
+
+
 
 ##  第三方模块
 * [sds](https://github.com/antirez/sds), Redis 作者维护的，非常好用的C字符串库
@@ -104,3 +122,4 @@ xxxxx  (创建你自己的项目)
 
 ## 参考资料
 * [bewater](https://github.com/zhandouxiaojiji/bewater),  skynet通用模块
+* [RillServer](https://github.com/cloudfreexiao/RillServer)，skynet 游戏框架
