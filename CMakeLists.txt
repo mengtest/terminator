@@ -23,4 +23,4 @@ set(LUA_INCLUDE_DIR  ${PROJECT_SOURCE_DIR}/skynet/3rd/lua)
 include_directories (${LUA_INCLUDE_DIR})
 
 add_subdirectory(thirdparty)
-add_subdirectory(examples)
+add_subdirectory(services)

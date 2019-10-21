@@ -106,7 +106,7 @@ def main(project_dir, deploy_dir):
         ("skynet/skynet",  "skynet"),
         ("skynet/3rd/lua/lua", "skynet"),
         ("skynet/3rd/lua/luac", "skynet"),
-        ("examples/run.sh",  "./"),
+        ("services/run.sh",  "./"),
     ]
     for path, destdir in files:
         src_path = os.path.join(project_dir, path)
@@ -122,10 +122,10 @@ def main(project_dir, deploy_dir):
         ("skynet/cservice", "skynet/cservice", ".so", [".dSYM"]),
         ("build/thirdparty", "luaclib", ".so", "*"),   # 星号， 标示不遍历子目录
         ("build/thirdparty", "lualib", ".lua", None),
-        ("build/examples/luaclib", "luaclib", ".so", "*"),
-        ("examples/service",  "service", ".lua", None),
-        ("examples/lualib","lualib", ".lua", None),
-        ("examples/etc", "etc", '*', None),       # 第2个星号，忽略文件后缀，复制所有的文件
+        ("build/services/luaclib", "luaclib", ".so", "*"),
+        ("services/service",  "service", ".lua", None),
+        ("services/lualib","lualib", ".lua", None),
+        ("services/etc", "etc", '*', None),       # 第2个星号，忽略文件后缀，复制所有的文件
         ("lualib", "lualib", ".lua", None),
     ]
 

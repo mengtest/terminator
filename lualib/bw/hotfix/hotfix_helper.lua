@@ -4,7 +4,6 @@
 --  注意：只在开发环境开启，千万不要用在现网!!!!!
 local skynet = require("skynet")
 
-
 local M = { }
 
 local lfs = require("lfs")

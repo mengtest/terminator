@@ -34,7 +34,5 @@ dev:
 test:
 	python tools/unittest.py skynet/3rd/lua/lua lualib
 
-
 check:
 	luacheck --config .luacheckrc .
-
