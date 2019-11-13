@@ -10,7 +10,6 @@ terminator 是基于 [skynet](https://github.com/cloudwu/skynet) 服务端开发
 ```shell
     $ git clone https://github.com/samuelyao314/workspace terminator
     $ cd terminator
-    $ mkdir build
     $ make
 
 ```

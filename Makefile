@@ -1,6 +1,6 @@
 .PHONY:all skynet clean dev build
 
-all: skynet build
+all: skynet directories build
 
 CUR_OS="linux"
 ifeq ($(shell uname), Darwin)
@@ -14,12 +14,15 @@ $(SKYNET_MAKEFILE):
 skynet: | $(SKYNET_MAKEFILE)
 	cd skynet && $(MAKE) $(CUR_OS)
 
+directories:
+	mkdir build
+
 build:
 	cd build && cmake .. && make
 
 clean:
-	cd build && rm -rf *
 	rm -rf deploy
+	rm -rf build
 	cd skynet && make clean
 
 
