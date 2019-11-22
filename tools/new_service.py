@@ -5,28 +5,32 @@
 import sys
 import os
 import os.path
+import multiprocessing
 
+# cpu 核数
+CPU_COUNT = multiprocessing.cpu_count()
 
 ETC_TEMLATE = """
--- {1}
-thread = 1
+-- {0}
+thread = {1}
 logger = nil
 harbor = 0
 lualoader = "skynet/lualib/loader.lua"
 bootstrap = "snlua bootstrap"   -- The service for bootstrap
 
-start = "{0}"
+start = "{2}"
 
 lua_cpath = "luaclib/?.so;skynet/luaclib/?.so"
 lua_path =  "lualib/?.lua;skynet/lualib/?.lua;"
-
-snax = "service/?.lua;service/?/init.lua;skynet/service/?.lua"
-luaservice = "service/?.lua;service/?/init.lua;skynet/service/?.lua"
 cpath = "cservice/?.so;skynet/cservice/?.so"
+luaservice = "service/?/init.lua;skynet/service/?.lua"
+
+preload="lualib/bw/preload.lua"
+run_env="dev"
 """
 
 def generate_etc(svr_name, infomation):
-    content = ETC_TEMLATE.format(svr_name, information)
+    content = ETC_TEMLATE.format(svr_name, CPU_COUNT, information)
     path = "services/etc"
     if not os.path.exists(path):
         os.makedirs(path)
@@ -68,7 +72,12 @@ def main(svr_name, information):
 if __name__ == '__main__':
     if len(sys.argv) < 3:
         print("usage: %s <server_name> <服务说明>\n", sys.argv[0])
-        os.exit(0)
+        print("例如: python new_service.py hellosvr 测试程序\n")
+        sys.exit(0)
     svr_name = sys.argv[1]
+    # 服务名用 svr, 避免跟 lib 库名称冲突
+    if not svr_name.endswith("svr"):
+        print("<server_name> must end with 'svr'\n")
+        sys.exit(0)
     information = sys.argv[2]
     main(svr_name, information)
