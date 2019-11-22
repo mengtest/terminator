@@ -1,6 +1,7 @@
 cache = true
 std = "max"
 read_globals = {"skynet"}
+new_globals = {"import", "print"}
 
 include_files = {
     "lualib/*",
