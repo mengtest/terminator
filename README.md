@@ -32,16 +32,16 @@ terminator 是基于 [skynet](https://github.com/cloudwu/skynet) 服务端开发
 
 ```
 lualib(公共lua库)
-   bw (基于skynet的公共库)
-       hotfix (热更新机制)
-   base(通用库)
-   perf(性能相关）
-   test(单元测试)
+	bw (基于skynet的公共库)
+		hotfix (热更新机制)
+	base(通用库)
+	perf(性能相关）
+	test(单元测试)
 services(服务相关)
-    etc(启动配置)
-    lualib(测试lib)
-    service(服务入口)
-    lualib-src(c库源码)
+	etc(启动配置)
+	lualib(测试lib)
+  service(服务入口)
+	lualib-src(c库源码)
 skynet(fork skynet项目，不作任何改动)
 tools(辅助工具)
 	deploy.py (生成部署目录)
@@ -95,18 +95,21 @@ services(服务相关)
 ```
 
 ## 代码热更新
-热更新机制针对开发环境，在正式环境不建议使用。
-因为Lua的灵活性以及游戏逻辑的复杂，热更新很难做完备。
-正式环境，需要临时修复代码，可以用 skynet 自带的 inject 机制。
+热更新机制可以在开发阶段，帮忙更好地调试代码。
+因为Lua的灵活性以及游戏逻辑的复杂，热更新很难做完备，因此不建议应用在生产环境。
+生产环境，需要临时修复代码，可以用 skynet 自带的 inject 机制。
 
-指定服务开启热更新，
+启动热更新，需要配置当前环境为开发环境
 
 ```lua
-	  # skynet.start 加入下面代码
-    local hotfix_runner = require("bw.hotfix.hotfix_runner")
-    # 具体需要热更新的模块， 放入这个列表里
-    local modules = {"mod"}
-    hotfix_runner.update_hotfix_modules(modules)
+	# config 文件
+	run_env="dev"
+```
+
+接着，**import**  加载的文件，一旦文件被修改，就会自动热加载。
+
+```lua
+	local mod = import("mod")
 ```
 
 更多细节看  services/service/hotfix.

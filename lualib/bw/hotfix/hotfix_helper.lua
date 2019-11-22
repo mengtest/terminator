@@ -1,11 +1,10 @@
 --  热更新机制，基于https://github.com/jinq0123/hotfix
 --- Hotfix helper which hotfixes modified modules.
 --  Using lfs to detect files' modification.
---  注意：只在开发环境开启，千万不要用在现网!!!!!
-local skynet = require("skynet")
-
+--  建议：只用在开发环境
 local M = { }
 
+local skynet = require("skynet")
 local lfs = require("lfs")
 local hotfix = require("hotfix.hotfix")
 

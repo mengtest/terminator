@@ -8,8 +8,10 @@ bootstrap = "snlua bootstrap"   -- The service for bootstrap
 start = "hotfix"  -- main script
 
 lua_cpath = "luaclib/?.so;skynet/luaclib/?.so"
-lua_path =  "skynet/service/?.lua;lualib/?.lua;skynet/lualib/?.lua;"
+lua_path =  "lualib/?.lua;skynet/lualib/?.lua;"
 
-snax = "service/?.lua;service/?/init.lua;skynet/service/?.lua"
-luaservice = "service/?.lua;service/?/init.lua;skynet/service/?.lua"
+luaservice = "service/?/init.lua;skynet/service/?.lua"
 cpath = "cservice/?.so;skynet/cservice/?.so"
+
+preload="lualib/bw/preload.lua"
+run_env="dev"  --开发环境

@@ -1,7 +1,7 @@
 local _M = {}
 
 local skynet = require "skynet"
-local table = require("table")
+local table = require("base.table")
 local hotfix_helper = require("bw.hotfix.hotfix_helper")
 local hotfix_module_names = require("bw.hotfix.hotfix_module_names")
 
@@ -9,23 +9,30 @@ local hotfix_module_names = require("bw.hotfix.hotfix_module_names")
 hotfix_helper.init()
 
 -- 触发热更新的时间间隔，单位是0.01s
-local delay = 1
+local delay = 100
 local function hot_update_cb()
     hotfix_helper.check()
     skynet.timeout(delay, hot_update_cb)
 end
 
 
--- 热更新模块列表
--- @param mod_list, 需要进行热更新的模块列表
-function _M.update_hotfix_modules(modules)
-    hotfix_helper.check()
-    for i, mod in ipairs(modules) do
+local start = false
+
+-- 增加模块，到热更新列表
+-- @param mod, 需要进行热更新的模块
+-- @RET，返回模块
+function _M.import(mod)
+    if not table.contains(hotfix_module_names, mod) then
+        -- 保证不重复
         table.insert(hotfix_module_names, mod)
     end
-    -- 启动一个定时
-    skynet.timeout(delay, hot_update_cb)
-end
+    local m = require(mod)
+    if not start then
+        skynet.timeout(delay, hot_update_cb)
+        start = true
+    end
 
+    return m
+end
 
 return _M
