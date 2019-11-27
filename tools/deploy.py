@@ -30,11 +30,6 @@ def md5_cmp(srcfile, destfile):
         dest_md5= get_file_md5(f)
     return src_md5 == dest_md5
 
-def mtime_cmp(srcfile, destfile):
-    t1 =  os.path.getmtime(srcfile)
-    t2 =  os.path.getmtime(destfile)
-    return t1 <= t2
-
 def copyfile(srcfile, destfile):
     assert(os.path.exists(srcfile))
     if not os.path.exists(destfile):
@@ -45,7 +40,7 @@ def copyfile(srcfile, destfile):
         print(srcfile, "####", destfile)
         return
     # 存在差异，才进行覆盖
-    same = file_is_same(srcfile, destfile, mtime_cmp)
+    same = file_is_same(srcfile, destfile, md5_cmp)
     if not same:
         shutil.copy2(srcfile, destfile)
         print(srcfile, "--->", destfile)

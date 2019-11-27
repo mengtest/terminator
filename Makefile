@@ -15,7 +15,7 @@ skynet: | $(SKYNET_MAKEFILE)
 	cd skynet && $(MAKE) $(CUR_OS)
 
 directories:
-	mkdir build
+	if [ ! -d "build" ]; then mkdir build endif
 
 build:
 	cd build && cmake .. && make
