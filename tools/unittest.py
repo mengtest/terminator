@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 """ 对项目的Lua 库， 尝试进行单元测试"""
 
